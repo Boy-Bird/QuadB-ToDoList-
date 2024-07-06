@@ -1,17 +1,47 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
 import { FaPlus } from "react-icons/fa";
+import { useStoreActions, useStoreState } from 'easy-peasy';
 
-const LineItem = ({ task, setTasks, editTask, setEditTask, handleCheck, handleDelete, handleEdit }) => {
+const LineItem = ({ task }) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const handleSubmit = (e,id) => {
+  const tasks = useStoreState((state) => state.tasks);
+  const editTask = useStoreState((state) => state.editTask);
+
+  const setTasks = useStoreActions((actions) => actions.setTasks);
+  const setEditTask = useStoreActions((actions) => actions.setEditTask);
+  const deleteTask = useStoreActions((actions) => actions.deleteTask)
+  const editTaskFn = useStoreActions((actions) => actions.editTaskFn)
+  const completeTask = useStoreActions((actions) => actions.completeTask)
+
+  const handleSubmit = (e, id) => {
     e.preventDefault();
     setIsEditing(false);
+    // handleEdit(id);
+    editTaskFn(id);
     setEditTask('');
-    handleEdit(id);
   }
+
+  // const handleCheck = (id) => {
+  //   const listTasks = tasks.map((task) =>
+  //     task.id === id ? { ...task, complete: !task.complete } : task
+  //   );
+  //   setTasks(listTasks);
+  // };
+
+  // const handleDelete = (id) => {
+  //   deleteTask(id);
+  // };
+
+  // const handleEdit = (id) => {
+  //   const listTasks = tasks.map((task) =>
+  //     task.id === id ? { ...task, task: editTask } : task
+  //   );
+  //   setTasks(listTasks);  
+  // }
+
   return (
     <div className="task-box">
       {isEditing ? (
@@ -20,8 +50,8 @@ const LineItem = ({ task, setTasks, editTask, setEditTask, handleCheck, handleDe
             id="task" 
             type="text" 
             placeholder={task.task}
-            value={editTask === "" ? task.task : editTask}
-            onChange={(e) => setEditTask(e.target.value === ""? task.task : e.target.value)}  
+            value={editTask==='' ? task.task : editTask}
+            onChange={(e) => setEditTask(e.target.value)}  
           />
           <button
             type="submit"
@@ -34,12 +64,12 @@ const LineItem = ({ task, setTasks, editTask, setEditTask, handleCheck, handleDe
         <li className="task">
           <input
             type="checkbox"
-            onChange={() => handleCheck(task.id)}
+            onChange={() => completeTask(task.id)}
             checked={task.complete}
           />
           <label
             style={task.complete ? { textDecoration: "line-through" } : null}
-            onDoubleClick={() => handleCheck(task.id)}
+            onDoubleClick={() => completeTask(task.id)}
           >
             {task.task}
           </label>
@@ -49,7 +79,7 @@ const LineItem = ({ task, setTasks, editTask, setEditTask, handleCheck, handleDe
             onClick={() => setIsEditing(true)}
           />
           <FaTrashAlt
-            onClick={() => handleDelete(task.id)}
+            onClick={() => deleteTask(task.id)}
             role="button"
             tabIndex="0"
           />

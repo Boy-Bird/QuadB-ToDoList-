@@ -1,8 +1,21 @@
 import { FaPlus } from "react-icons/fa";
 import { useRef } from "react";
+import { useStoreActions, useStoreState } from 'easy-peasy';
 
-const AddTask = ({ newTask, setNewTask, handleSubmit }) => {
+const AddTask = () => {
   const inputRef = useRef();
+
+  const newTask = useStoreState((state) => state.newTask);
+
+  const setNewTask = useStoreActions((actions) => actions.setNewTask);
+  const addTask = useStoreActions((actions) => actions.addTask);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if(!newTask) return;
+    addTask(newTask);
+    setNewTask('');
+  }
 
   return (
     <form className="addForm" onSubmit={handleSubmit}>

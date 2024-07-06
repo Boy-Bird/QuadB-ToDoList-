@@ -1,19 +1,16 @@
 import React from "react";
 import LineItem from "./LineItem";
+import { useStoreState } from 'easy-peasy';
 
-const TaskList = ({ tasks, setTasks,editTask, setEditTask, handleCheck, handleDelete, handleEdit }) => {
+const TaskList = () => {
+  const tasks = useStoreState((state) => state.tasks)
+
   return (
     <ul>
       {tasks.map((task) => (
         <LineItem 
           key={task.id}
           task={task}
-          setTasks={setTasks}
-          editTask={editTask}
-          setEditTask={setEditTask}
-          handleCheck={handleCheck}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
         />
       ))}
     </ul>

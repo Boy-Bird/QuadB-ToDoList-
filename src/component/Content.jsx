@@ -1,20 +1,13 @@
 import React from 'react'
 import TaskList from './TaskList';
+import { useStoreState } from 'easy-peasy';
 
-const Content = ({tasks,setTasks,editTask, setEditTask, handleCheck, handleDelete, handleEdit }) => {
-  
+const Content = () => {
+  const tasks = useStoreState((state) => state.tasks);
   return (
     <main>
       {tasks.length ? (
-        <TaskList 
-          tasks = {tasks}
-          setTasks={setTasks}
-          editTask={editTask}
-          setEditTask={setEditTask}
-          handleCheck={handleCheck}
-          handleDelete={handleDelete}
-          handleEdit={handleEdit}
-        />
+        <TaskList />
       ) : (
         <p style={{marginTop: '2rem'}}>Your list is empty.</p>
       )}
