@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { FaTrashAlt } from "react-icons/fa";
 import { MdModeEdit } from "react-icons/md";
-import { FaPlus } from "react-icons/fa";
+import { TiTick } from "react-icons/ti";
+import { RxCross2 } from "react-icons/rx";
+
 import { useStoreActions, useStoreState } from 'easy-peasy';
 
 const LineItem = ({ task }) => {
   const [isEditing, setIsEditing] = useState(false);
 
-  const tasks = useStoreState((state) => state.tasks);
   const editTask = useStoreState((state) => state.editTask);
 
-  const setTasks = useStoreActions((actions) => actions.setTasks);
   const setEditTask = useStoreActions((actions) => actions.setEditTask);
   const deleteTask = useStoreActions((actions) => actions.deleteTask)
   const editTaskFn = useStoreActions((actions) => actions.editTaskFn)
@@ -19,28 +19,9 @@ const LineItem = ({ task }) => {
   const handleSubmit = (e, id) => {
     e.preventDefault();
     setIsEditing(false);
-    // handleEdit(id);
     editTaskFn(id);
     setEditTask('');
   }
-
-  // const handleCheck = (id) => {
-  //   const listTasks = tasks.map((task) =>
-  //     task.id === id ? { ...task, complete: !task.complete } : task
-  //   );
-  //   setTasks(listTasks);
-  // };
-
-  // const handleDelete = (id) => {
-  //   deleteTask(id);
-  // };
-
-  // const handleEdit = (id) => {
-  //   const listTasks = tasks.map((task) =>
-  //     task.id === id ? { ...task, task: editTask } : task
-  //   );
-  //   setTasks(listTasks);  
-  // }
 
   return (
     <div className="task-box">
@@ -55,9 +36,19 @@ const LineItem = ({ task }) => {
           />
           <button
             type="submit"
+            id="cross"
+            aria-label="Add Task"
+            onClick={()=>setIsEditing(false)}
+            style={{marginRight: "0.25rem"}}
+            >
+              <RxCross2 />
+
+          </button>
+          <button
+            type="submit"
             aria-label="Add Task"
             >
-            <FaPlus />
+            <TiTick />
           </button>
         </form>
       ) : (

@@ -2,7 +2,7 @@ import { FaPlus } from "react-icons/fa";
 import { useRef } from "react";
 import { useStoreActions, useStoreState } from 'easy-peasy';
 
-const AddTask = () => {
+const TaskInput = () => {
   const inputRef = useRef();
 
   const newTask = useStoreState((state) => state.newTask);
@@ -42,4 +42,4 @@ const AddTask = () => {
   )
 }
 
-export default AddTask
+export default TaskInput

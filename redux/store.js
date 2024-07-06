@@ -35,9 +35,8 @@ export default createStore({
 
   editTaskFn: thunk(async (actions, id, helpers) => {
     const { tasks, editTask } = helpers.getState();
-    // console.log(editTask);
     const listTasks = tasks.map((task) =>
-      task.id === id ? { ...task, task: editTask } : task
+      task.id === id ? { ...task, task: editTask === ''? task.task : editTask } : task
     );
     actions.setTasks(listTasks);
   }),
@@ -48,5 +47,5 @@ export default createStore({
       task.id === id ? { ...task, complete: !task.complete } : task
     ))
   }),
-  
+
 })
